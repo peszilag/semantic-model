@@ -1,0 +1,84 @@
+taxonomy:
+  /infra:
+    label: Infrastructure
+    description: Infrastructure, cloud computing and networking related concepts
+  /infra/compute-node:
+    label: Compute Node
+    description: Machine that contains compute HW (CPU, GPU) and memory (RAM) and
+      data storage resources, and can execute software.
+    schema:
+      type: object
+      properties:
+        cpu:
+          $ref: '#/taxonomy//infra/resource/cpu/schema'
+        gpu:
+          $ref: '#/taxonomy//infra/resource/gpu/schema'
+        ram:
+          $ref: '#/taxonomy//infra/resource/ram/schema'
+        vram:
+          $ref: '#/taxonomy//infra/resource/vram/schema'
+        storage:
+          $ref: '#/taxonomy//infra/resource/storage/schema'
+        os:
+          $ref: '#/taxonomy//infra/software/os/schema'
+        vm:
+          $ref: '#/taxonomy//infra/software/vm/schema'
+        container:
+          $ref: '#/taxonomy//infra/software/container/schema'
+  /infra/hosts:
+    label: Hosts
+    description: Relation for compute-node to host a container
+  /infra/resource:
+    label: Resoure
+    description: Abstract resource.
+  /infra/resource/cpu:
+    label: CPU
+    description: CPU in virtual processor units
+    schema:
+      type: number
+      default: 0
+  /infra/resource/gpu:
+    label: GPU
+    description: GPU in physical processor units
+    schema:
+      type: number
+      default: 0
+  /infra/resource/ram:
+    label: RAM
+    description: Random Access Memory in GB (gigabyte) units
+    schema:
+      type: number
+      default: 0
+  /infra/resource/vram:
+    label: VRAM
+    description: Video (GPU) Memory in GB (gigabyte) units
+    schema:
+      type: number
+      default: 0
+  /infra/resource/storage:
+    label: Storage
+    description: Persistent disk storage in GB (gigabyte) units
+    schema:
+      type: number
+      default: 0
+  /infra/software:
+    label: Software
+    description: Software running on an infrastructure
+  /infra/software/os:
+    label: OS
+    description: Operating System
+    schema:
+      type: string
+      default: Linux
+  /infra/software/vm:
+    label: VM
+    description: Virtual machine running on a hypervisor
+    schema:
+      type: string
+      default: KVM
+  /infra/software/container:
+    label: Container
+    description: Container running in a VM or on a host operating system
+    schema:
+      type: string
+      default: Docker

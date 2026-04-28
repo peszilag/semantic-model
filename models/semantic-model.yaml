@@ -1,0 +1,174 @@
+taxonomy:
+  /semantic-model:
+    label: Semantic Model
+    description: Concepts of a semantic software model.
+
+  /semantic-model/software-module:
+    label: Module
+    description: Software Module, a deployable software unit (e.g., container, pod, virtual machine, physical hardware with baremetal installation) implementing capabilities defined by a collection of Software Methods.
+    schema:
+      type: object
+      properties:
+        infra:
+          type: object
+          properties:
+            input:
+              type: object
+              additionalProperties:
+                type: object
+                additionalProperties: false
+                properties:
+                  name:
+                    type: string
+            output:
+              type: object
+              additionalProperties:
+                type: object
+                additionalProperties: false
+                properties:
+                  name:
+                    type: string
+            resources:
+              $ref: "#/taxonomy//infra/compute-node/schema"
+        network:
+          type: object
+          additionalProperties: false
+          properties:
+            input:
+              type: object
+              additionalProperties:
+                type: object
+                additionalProperties: false
+                required: [name]
+                properties:
+                  name:
+                    type: string
+                  neighbors:
+                    type: array
+                    items:
+                      type: string
+            output:
+              type: object
+              additionalProperties:
+                type: object
+                additionalProperties: false
+                required: [name]
+                properties:
+                  name:
+                    type: string
+                  neighbors:
+                    type: array
+                    items:
+                      type: string
+        methods:
+          type: object
+          additionalProperties:
+            $ref: "#/taxonomy//semantic-model/method/schema"
+
+  /semantic-model/method:
+    label: Method
+    description: Software Method, the logical representation of a software based capability, service or data.
+    schema:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        parameters:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              schema:
+                $ref: "https://json-schema.org/draft/2020-12/schema"
+        I:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              so:
+                type: string
+              schema:
+                $ref: "https://json-schema.org/draft/2020-12/schema"
+        O:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              so:
+                type: string
+              schema:
+                $ref: "https://json-schema.org/draft/2020-12/schema"
+        E:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              so:
+                type: string
+              schema:
+                $ref: "https://json-schema.org/draft/2020-12/schema"
+        D:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              so:
+                type: string
+              schema:
+                $ref: "https://json-schema.org/draft/2020-12/schema"
+
+  /semantic-model/input:
+    label: Input
+    description: A software method consumes an input data.
+    schema:
+      $ref: "#/$defs/moduleSoLink"
+
+  /semantic-model/output:
+    label: Output
+    description: A software method produces an output data.
+    schema:
+      $ref: "#/$defs/moduleSoLink"
+
+  /semantic-model/dependency:
+    label: Dependency
+    description: A software method depends on an effect.
+    schema:
+      $ref: "#/$defs/moduleSoLink"
+
+  /semantic-model/effect:
+    label: Effect
+    description: A software method causes an effect.
+    schema:
+      $ref: "#/$defs/moduleSoLink"
+
+  /semantic-model/sobject:
+    label: SObject
+    description: Semantic Object representing a type of data produced by a software method, or a type of effect caused by a software method. Data can be produced or consumed (input or output). Effects can be directly caused by a software method, or required by a software module as a dependency (i.e., to have been caused by another software method).
+
+  /semantic-model/service:
+    label: Service
+    description: A set of capabilities, actions or events provided and consumed by interactions (signaling, APIs, data transfer) between service provider(s) and consumer(s).
+    schema:
+      $ref: "#/taxonomy//semantic-model/method/schema"
+
+$defs:
+  moduleSoLink:
+    type: object
+    properties:
+      # Method names within a Software Module linked to a SObject
+      methods:
+        type: array
+        items:
+          type: string

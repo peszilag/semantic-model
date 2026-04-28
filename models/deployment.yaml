@@ -1,0 +1,588 @@
+taxonomy:
+
+  # ================================================================================
+  # SObjects
+  # ================================================================================
+
+  /semantic-model/sobject/measurement:
+    label: Measurement
+    description: Generic measurement.
+
+  /semantic-model/sobject/measurement/network:
+    label: Network measurement
+    description: Generic network measurement.
+
+  /semantic-model/sobject/measurement/network/ran:
+    label: RAN measurement
+    description: Generic RAN measurement.
+
+  /semantic-model/sobject/measurement/network/ran/pm:
+    label: RAN PM counters
+    description: Radio Access Network performance management counters provided by the network functions.
+
+  /semantic-model/sobject/data:
+    label: Data
+    description: Generic data.
+
+  /semantic-model/sobject/data/stream:
+    label: Stream of data
+    description: Streaming data.
+
+  /semantic-model/sobject/data/stream/network:
+    label: Stream of network data
+    description: Streaming of network data.
+
+  /semantic-model/sobject/data/stream/network/ran:
+    label: Stream of RAN data
+    description: Streaming of RAN data.
+
+  /semantic-model/sobject/data/stream/network/ran/pm:
+    label: Stream of RAN PM counters
+    description: Streaming data of RAN PM counters.
+
+  /semantic-model/sobject/measurement/network/core:
+    label: Core measurement
+    description: Generic core measurement.
+
+  /semantic-model/sobject/measurement/network/core/pm:
+    label: Core network PM conuters
+    description: Core network performance management counters provided by the network functions.
+
+  /semantic-model/sobject/data/stream/network/core:
+    label: Streaming of Core network data
+    description: Streaming data of Core network data.
+
+  /semantic-model/sobject/data/stream/network/core/pm:
+    label: Streaming of Core network PM counters
+    description: Streaming data of Core network PM counters.
+
+  /semantic-model/sobject/measurement/network/fm:
+    label: Network Alarms
+    description: Network alarms provided by the network functions.
+
+  /semantic-model/sobject/data/stream/network/fm:
+    label: Streaming of Network Alarms
+    description: Streaming data of Network alarms.
+
+  /semantic-model/sobject/measurement/network/log:
+    label: Network Logs
+    description: Software logs provided by the network functions.
+
+  /semantic-model/sobject/data/stream/network/log:
+    label: Streaming of Network Logs
+    description: Streaming data of Network Logs.
+
+  /semantic-model/sobject/measurement/network/flow:
+    label: DetNet flow measurements
+    description: Traffic measurements for deterministic traffic flows.
+
+  /semantic-model/sobject/data/stream/network/flow:
+    label: Stream of DetNet flow measurements
+    description: Streaming data of DetNet flow measurements.
+
+  /semantic-model/sobject/measurement/network/uelocation:
+    label: UE location reports
+    description: Reports of the UE location by the network.
+
+  /semantic-model/sobject/data/stream/network/uelocation:
+    label: Streaming of UE location reports
+    description: Streaming data of UE location reports.
+
+  /semantic-model/sobject/measurement/ue:
+    label: UE Measurements
+    description: Device side network and traffic measurements including radio signal quality, throughput, delay.
+
+  /semantic-model/sobject/data/stream/ue:
+    label: Streaming of UE measurements
+    description: Streaming data of UE device side measurements.
+
+  /semantic-model/sobject/effect:
+    label: Effect
+    description: An effect or impact caused by a software module.
+
+  /semantic-model/sobject/effect/qos:
+    label: QoS
+    description: Impact on the quality of service.
+
+  /semantic-model/sobject/effect/qos/conf:
+    label: Config
+    description: Configure the quality of service management.
+
+  /semantic-model/sobject/effect/qos/dejitter:
+    label: Dejitter
+    description: Reduce the jitter of packet flows.
+
+  /semantic-model/sobject/effect/traffic:
+    label: Application traffic
+    description: Application traffic is generated in the network.
+
+  /semantic-model/sobject/effect/traffic/app:
+    label: Client application traffic
+    description: Client side application traffic is generated in the network.
+
+  /semantic-model/sobject/effect/nf:
+    label: NF
+    description: Network Function
+
+  /semantic-model/sobject/effect/nf/upf:
+    label: UPF
+    description: User Plane Function
+
+  /semantic-model/sobject/effect/subscriber:
+    label: Subscriber impact
+    description: Impact a subscriber's configuration.
+
+  /semantic-model/sobject/effect/subscriber/qos:
+    label: Subscriber QoS
+    description: Configure a subscriber's Quality of Service class.
+
+  /semantic-model/sobject/effect/cla:
+    label: NDT based DetNet management
+    description: NDT based close loop autonomous deterministic service management for cloud robots
+
+  /semantic-model/sobject/service:
+    label: Service
+    description: End user communication service such as a best effort PDU session or a deterministic service
+
+  /semantic-model/sobject/service/detsrv:
+    label: DetSrv
+    description: Deterministic network service providing low jitter and low latency
+
+  # ================================================================================
+  # HW modules
+  # ================================================================================
+
+  /semantic-model/software-module/ue:
+    label: UE
+    description: User Equipment
+    instanceOf:
+      /3gpp/ue: {}
+      /semantic-model/software-module:
+        infra: {}
+        network:
+          output:
+            net-app:
+              name: APP
+            net-ip-ue:
+              name: IP (UE)
+            net-3gpp-uu:
+              name: Uu
+        methods:
+          traffic:
+            name: App
+            description: Activate the application with the selected traffic profile.
+            parameters:
+              - name: Profile
+                description: Application traffic profile
+                schema:
+                  $ref: '#/$defs/appType'
+            E:
+              - so: sobject.effect.traffic.app
+
+  /semantic-model/software-module/gnb:
+    label: gNB
+    description: 5G Radio Access Node
+    instanceOf:
+      /3gpp/nf/ran/du: {}
+      /3gpp/nf/ran/cu/up: {}
+      /3gpp/nf/ran/cu/cp: {}
+      /semantic-model/software-module:
+        infra: {}
+        network:
+          input:
+            net-3gpp-uu:
+              name: Uu
+              multiply: true
+          output:
+            net-3gpp-n3:
+              name: N3
+            net-ip:
+              name: IP
+
+  /semantic-model/software-module/ec:
+    label: EC
+    description: Edge Cloud compute node representing a compute host with resources.
+    instanceOf:
+      /semantic-model/software-module:
+        infra:
+          output:
+            host.cloud:
+              name: Host (cloud)
+        network:
+          input:
+            net-ip:
+              name: IP
+              multiply: true
+          output:
+            net-ip:
+              name: IP
+
+  /semantic-model/software-module/5gc:
+    label: 5GC
+    description: 5G Core network C-plane and U-plane functions.
+    instanceOf:
+      /3gpp/nf/core/amf: {}
+      /3gpp/nf/core/smf: {}
+      /3gpp/nf/core/upf: {}
+      /semantic-model/software-module:
+        infra: {}
+        network:
+          input:
+            net-ip-ue:
+              name: IP (UE)
+              multiply: true
+            net-3gpp-n3:
+              name: N3
+              multiply: true
+            net-ip:
+              name: IP
+              multiply: true
+          output:
+            net-ip:
+              name: IP
+        methods:
+          upffunction:
+            name: UpfFunction
+            description: User Plane Function
+            E:
+              - so: sobject.effect.nf.upf
+          setsubscriberqos:
+            name: SetSubscriberQoS
+            description: Set the QoS of the subscriber
+            E:
+              - so: sobject.effect.subscriber.qos
+          getuelocationareaaccess:
+            name: GetUeLocationAreaAccess
+            description: getting the location of the UE
+            O:
+              - so: sobject.measurement.network.uelocation
+          getranpmcounters:
+            name: GetRanPmCounters
+            description: providing the RAN PM counters
+            parameters:
+              - name: frequency
+                description: Frequency of PM counters
+                schema:
+                  type: object
+                  properties:
+                    unit:
+                      type: string
+                      enum:
+                        - minute
+                    value:
+                      type: integer
+                      enum:
+                        - 1
+                        - 5
+                        - 15
+                        - 60
+                      default: 15
+            O:
+              - so: sobject.measurement.network.ran.pm
+                schema:
+                  $ref: '#/$defs/timeSeriesNum'
+          getcorepmcounters:
+            name: GetCorePmCounters
+            description: providing the core PM counters
+            parameters:
+              - name: frequency
+                description: Frequency of PM counters
+                schema:
+                  type: object
+                  properties:
+                    unit:
+                      type: string
+                      enum:
+                        - minute
+                    value:
+                      type: integer
+                      enum:
+                        - 1
+                        - 5
+                        - 15
+                        - 60
+                      default: 15
+            O:
+              - so: sobject.measurement.network.core.pm
+          getfmcountersalarms:
+            name: GetFmCountersAlarms
+            description: providing the FM counters and alarms
+            O:
+              - so: sobject.measurement.network.fm
+          getnflog:
+            name: GetNfLogs
+            description: providing the software log of network functions
+            O:
+              - so: sobject.measurement.network.log
+                schema:
+                  $ref: '#/$defs/logfile'
+
+  /semantic-model/software-module/appserver:
+    label: AppServer
+    description: Application Server at the 5GC.
+    instanceOf:
+      /semantic-model/software-module:
+        infra:
+          output:
+            host.cloud:
+              name: Host (cloud)
+        network:
+          input:
+            net-ip:
+              name: IP
+              multiply: true
+          output:
+            net-ip:
+              name: IP
+
+  # ================================================================================
+  # SW modules
+  # ================================================================================
+
+  /semantic-model/software-module/mdpagent:
+    label: MDP Agent
+    description: >-
+      DPDK application providing monitoring and quality of service management for
+      multi-domain deterministic services.
+    instanceOf:
+      /semantic-model/software-module:
+        methods:
+          config:
+            name: Config
+            description: Configure the operation of the agent.
+            E:
+              - so: sobject.effect.qos.conf
+          meas:
+            name: Meas
+            description: Traffic measurements for deterministic and non-deterministic flows.
+            O:
+              - so: sobject.measurement.network.flow
+                schema:
+                  $ref: '#/$defs/measDetFlow'
+          dejitter:
+            name: Dejitter
+            description: Dejitter the deterministic flows.
+            E:
+              - so: sobject.effect.qos.dejitter
+
+  /semantic-model/software-module/datacollector:
+    label: Data Collector
+    description: >-
+      Collects, forwards and stores measurements and network data. Data sources
+      may register their capability to produce data. Data consumers retrieve data
+      from the data collector rather than the original sources to enable efficient
+      and scalable data sharing without unnecesary overhead.
+    instanceOf:
+      /semantic-model/software-module:
+        methods:
+          streamranpmcounters:
+            name: RAN PM Counters
+            description: Stream the RAN PM counters.
+            parameters:
+              - name: frequency
+                description: Frequency of PM counters
+                schema:
+                  type: object
+                  properties:
+                    unit:
+                      type: string
+                      enum:
+                        - minute
+                    value:
+                      type: integer
+                      minimum: 1
+                      maximum: 60
+            I:
+              - so: sobject.measurement.network.ran.pm
+                schema:
+                  $ref: '#/$defs/timeSeriesNum'
+            O:
+              - so: sobject.data.stream.network.ran.pm
+          streamcorepmcounters:
+            name: Core PM Counters
+            description: Stream the Core PM counters.
+            parameters:
+              - name: frequency
+                description: Frequency of PM counters
+                schema:
+                  type: object
+                  properties:
+                    unit:
+                      type: string
+                      enum:
+                        - minute
+                    value:
+                      type: integer
+                      minimum: 1
+                      maximum: 60
+            I:
+              - so: sobject.measurement.network.core.pm
+            O:
+              - so: sobject.data.stream.network.core.pm
+          streamnfpm:
+            name: NF FM Alarms
+            description: Stream the network function alarms.
+            I:
+              - so: sobject.measurement.network.fm
+            O:
+              - so: sobject.data.stream.network.fm
+          streamnflog:
+            name: NF Logs
+            description: Stream the network function software logs.
+            I:
+              - so: sobject.measurement.network.log
+                schema:
+                  $ref: '#/$defs/logfile'
+            O:
+              - so: sobject.data.stream.network.log
+                schema:
+                  $ref: '#/$defs/loglines'
+          streamdetflowmeasurements:
+            name: FlowMeas
+            description: Stream the DetNet Flow measurements.
+            I:
+              - so: sobject.measurement.network.flow
+            O:
+              - so: sobject.data.stream.network.flow
+          streamuelocation:
+            name: UE Location
+            description: Stream the UE location data.
+            I:
+              - so: sobject.measurement.network.uelocation
+            O:
+              - so: sobject.data.stream.network.uelocation
+
+  /semantic-model/software-module/srvmgt:
+    label: SrvMgt
+    description: >-
+      Deterministic service manager capable of monitoring and assuring quality of
+      service for time sensitive traffic flows.
+    instanceOf:
+      /semantic-model/software-module:
+        methods:
+          cla:
+            name: CLA
+            description: Closed-loop automation of the DetNet service assurance.
+            I:
+              - so: sobject.data.stream.network.flow
+            D:
+              - so: sobject.effect.qos.conf
+            E:
+              - so: sobject.effect.cla
+
+  # ================================================================================
+  # Services
+  # ================================================================================
+
+  /semantic-model/service/detsrv:
+    label: DetSrv
+    description: Deterministic (time sensitive) communication service with low latency and low jitter.
+    instanceOf:
+      /semantic-model/service:
+        D:
+          - so: sobject.effect.traffic.app
+          - so: sobject.effect.qos.dejitter
+          - so: sobject.effect.cla
+          - so: sobject.effect.nf.upf
+        E:
+          - so: sobject.service.detsrv
+
+# ================================================================================
+# Reusable schemas
+# ================================================================================
+
+$defs:
+  measScalar:
+    type: object
+    properties:
+      unit:
+        type: string
+      value:
+        type: number
+  measBidirectional:
+    type: object
+    properties:
+      unit:
+        type: string
+      dl:
+        type: number
+      ul:
+        type: number
+  measDetFlow:
+    type: object
+    properties:
+      flowId:
+        type: string
+      timestamp:
+        type: number
+      throughput:
+        $ref: '#/$defs/measBidirectional'
+      delay:
+        $ref: '#/$defs/measBidirectional'
+      jitter:
+        $ref: '#/$defs/measBidirectional'
+      packetloss:
+        $ref: '#/$defs/measBidirectional'
+  timeSeriesNum:
+    type: object
+    properties:
+      meta:
+        type: object
+        properties:
+          name:
+            type: string
+          sourceId:
+            type: string
+          unit:
+            type: string
+      values:
+        type: array
+        items:
+          type: integer
+  logfile:
+    type: object
+    properties:
+      meta:
+        type: object
+        properties:
+          fileName:
+            type: string
+          sourceId:
+            type: string
+      fileContent:
+        type: string
+  loglines:
+    type: object
+    properties:
+      meta:
+        type: object
+        properties:
+          name:
+            type: string
+          sourceId:
+            type: string
+      lines:
+        type: array
+        items:
+          type: string
+  measUE:
+    type: object
+    properties:
+      ueId:
+        type: string
+      timestamp:
+        type: number
+      rsrp:
+        $ref: '#/$defs/measScalar'
+      throughput:
+        $ref: '#/$defs/measBidirectional'
+      delay:
+        $ref: '#/$defs/measBidirectional'
+  appType:
+    type: string
+    default: video
+    enum:
+      - background
+      - video
+      - web
+      - robot

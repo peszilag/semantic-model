@@ -1,0 +1,46 @@
+taxonomy:
+  /3gpp:
+    label: 3GPP
+    description: 3rd Generation Partnership Project
+  /3gpp/ran:
+    label: RAN
+    description: Radio Access Network providing wireless cellular access for UEs.
+  /3gpp/core:
+    label: Core
+    description: Core Network providing control-plane and user-plane functions, and management services for devices, subscriptions, network and servies.
+  /3gpp/ue:
+    label: UE
+    description: User Equipment terminal device attaching to the radio access network, consuming data services and running applications.
+  /3gpp/nf:
+    label: NF
+    description: Network Function
+  /3gpp/nf/ran:
+    label: RAN NF
+    description: RAN Network Function
+  /3gpp/nf/ran/rh:
+    label: RH
+    description: Radio Head, providing phyisical antenna for radio signal transmission and reception.
+  /3gpp/nf/ran/du:
+    label: DU
+    description: Distributed Unit, providing digital signal processing for the RHs.
+  /3gpp/nf/ran/cu:
+    label: CU
+    description: Central Unit, providing L2/L3 radio layer functions.
+  /3gpp/nf/ran/cu/cp:
+    label: CU-CP
+    description: Control-plane functions of the CU.
+  /3gpp/nf/ran/cu/up:
+    label: CU-UP
+    description: User-plane functions of the CU.
+  /3gpp/nf/core:
+    label: Core NF
+    description: Core Network Function
+  /3gpp/nf/core/amf:
+    label: AMF
+    description: Access and Mobility Management Function - manages UE registration, authentication, authorization, mobility management, and session control; serves as the primary control‑plane anchor for the 5G core.
+  /3gpp/nf/core/smf:
+    label: SMF
+    description: Session Management Function - negotiates and maintains user‑plane sessions, IP address allocation, QoS policies, and inter‑domain routing; interfaces with the AMF to configure traffic flows.
+  /3gpp/nf/core/upf:
+    label: UPF
+    description: User Plane Function - routes user data packets, enforces QoS and security policies, performs packet inspection and header processing; acts as the packet anchor between the core network and the access network.
